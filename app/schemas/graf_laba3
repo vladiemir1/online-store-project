@@ -1,0 +1,70 @@
+@startuml AuthorizationModule
+skinparam packageStyle rectangle
+title Рис 1. Диаграмма классов модуля авторизации (Online Store API)
+
+package "Domain/DTO (Pydantic)" {
+  class User {
+    + id: Long
+    + login: String
+    + hashed_password: String
+    + role: String (SELLER/CUSTOMER)
+  }
+  class RegisterRequest
+  class LoginRequest
+  class TokenResponse {
+    + access_token: String
+    + token_type: String
+  }
+  class ProfileResponse
+}
+
+package "Controller Layer (Routers)" {
+  class AuthRouter {
+    + /register(req)
+    + /login(req) -> TokenResponse
+  }
+  class ProfileRouter {
+    + /me(user) -> ProfileResponse
+  }
+}
+
+package "Service Layer" {
+  interface IAuthService {
+    + register(req)
+    + login(req) -> TokenResponse
+  }
+  interface IUserService
+  class JWTService {
+    + create_token(id, role) -> String
+    + decode_token(token) -> Payload
+  }
+}
+
+package "Persistence Layer" {
+  interface IUserRepository {
+    + save(user)
+    + find_by_login(login) -> User
+  }
+}
+
+package "Security" {
+  class JWTHelper {
+    + hash(password) -> String
+    + verify(pass, hash) -> Boolean
+  }
+  class JWTAuthDependency {
+    // Реализовано как FastAPI Dependency Injection
+    + __call__(token: Header) -> User
+  }
+}
+
+' Relations
+AuthRouter --> IAuthService : calls
+ProfileRouter --> JWTAuthDependency : depends on (Security)
+
+IAuthService ..> IUserRepository
+IAuthService ..> JWTService : generates token
+
+JWTAuthDependency ..> JWTService : validates token
+JWTAuthDependency ..> IUserRepository : fetches user details
+@enduml
