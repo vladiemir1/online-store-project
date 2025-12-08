@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Store | Аутентификация (ЛР №3)</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; background-color: #f4f4f4; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        header { width: 100%; padding: 10px 20px; background: #333; color: white; display: flex; justify-content: space-between; align-items: center; }
+        .container { max-width: 900px; width: 100%; margin: 20px auto; padding: 20px; background: white; box-shadow: 0 0 15px rgba(0,0,0,0.2); }
+        .auth-block { width: 350px; padding: 30px; margin-top: 50px; background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        input[type="text"], input[type="password"], input[type="email"], input[type="number"], select, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; box-sizing: border-box; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        button { padding: 10px 15px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; margin-top: 10px; width: 100%; }
+        button:hover { background: #0056b3; }
+        .secondary-btn { background: #6c757d; }
+        .secondary-btn:hover { background: #5a6268; }
+        .message { padding: 10px; margin-bottom: 10px; border-radius: 4px; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        
+        /* Каталог и ЛК */
+        .product-list { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px; }
+        .product-card { border: 1px solid #ccc; padding: 15px; width: 250px; background: #fafafa; border-radius: 4px; }
+        .lk-info { margin-bottom: 20px; padding: 10px; background: #e9ecef; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <header>
+        <span id="auth-status">Online Store </span>
+        <div id="user-controls" style="display:none;">
+            <span id="user-greeting" style="margin-right: 15px;"></span>
+            <button id="logout-btn" class="secondary-btn">Выход</button>
+        </div>
+    </header>
+
+    <div id="main-content" class="container" style="display: none;">
+        <div id="lk-view">
+            <div class="lk-info" id="lk-info"></div>
+            <div id="lk-data" class="product-list"></div>
+        </div>
+        
+        <div id="seller-tools" style="display: none; margin-top: 30px;">
+            <button id="show-add-product-form-btn" class="primary-btn" style="width: auto;">➕ Добавить новый товар</button>
+            
+            <div id="add-product-section" style="display: none; margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
+                <h3>Форма добавления товара</h3>
+                <form id="add-product-form">
+                    <div>
+                        <label for="prod-name">Название:</label>
+                        <input type="text" id="prod-name" placeholder="Название товара" required>
+                    </div>
+                    <div>
+                        <label for="prod-price">Цена (руб.):</label>
+                        <input type="number" id="prod-price" step="0.01" placeholder="0.00" required>
+                    </div>
+                    <div>
+                        <label for="prod-desc">Описание:</label>
+                        <textarea id="prod-desc" placeholder="Подробное описание товара"></textarea>
+                    </div>
+                    <button type="submit">Опубликовать товар</button>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div id="auth-forms-center" class="auth-block">
+        <div id="login-section">
+            <h2>Вход</h2>
+            <div class="message error" id="auth-message-center" style="display: none;"></div>
+            
+            <form id="login-form">
+                <input type="text" id="login-username" placeholder="Логин" required><br>
+                <input type="password" id="login-password" placeholder="Пароль" required><br>
+                <button type="submit">Войти</button>
+            </form>
+            <button id="show-register-btn" class="secondary-btn">У меня нет аккаунта. Перейти к регистрации</button>
+        </div>
+
+        <div id="register-section" style="display: none;">
+            <h2>Регистрация</h2>
+            <div class="message error" id="reg-message-center" style="display: none;"></div>
+            
+            <form id="register-form">
+                <input type="text" id="reg-login" placeholder="Логин" required><br>
+                <input type="password" id="reg-password" placeholder="Пароль (>= 8 символов)" required><br>
+                <input type="text" id="reg-name" placeholder="Имя" required><br>
+                <input type="email" id="reg-email" placeholder="Email" required><br>
+                <select id="reg-role">
+                    <option value="ROLE_CUSTOMER">Покупатель</option>
+                    <option value="ROLE_SELLER">Продавец</option>
+                </select><br>
+                <button type="submit">Зарегистрироваться</button>
+            </form>
+            <button id="show-login-btn" class="secondary-btn">Вернуться ко входу</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
