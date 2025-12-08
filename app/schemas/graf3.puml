@@ -1,0 +1,25 @@
+@startuml RepositoryLayer
+skinparam packageStyle rectangle
+skinparam interface {
+  BorderColor #FFC300
+  BackgroundColor #FFFDD0
+}
+title Рис. 3. Диаграмма слоя repository
+
+interface IUserRepository
+interface IProductRepository
+interface IRoleRepository
+
+package "Repository Implementations" {
+  class UserRepository
+  class ProductRepository
+  class RoleRepository
+}
+
+IUserRepository <|.. UserRepository
+IProductRepository <|.. ProductRepository
+IRoleRepository <|.. RoleRepository
+
+note left of UserRepository: CRUD for User
+note left of ProductRepository: CRUD for Product
+@enduml

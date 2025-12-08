@@ -1,0 +1,39 @@
+@startuml ServiceLayer
+skinparam packageStyle rectangle
+skinparam interface {
+  BorderColor #5CB85C
+  BackgroundColor #E6F7E6
+}
+title Рис. 2. Диаграмма слоя service (Interfaces & Implementations)
+
+package "Service Interfaces" {
+  interface IAuthService
+  interface IUserService
+  interface IProductService
+  interface IJWTService
+}
+
+package "Service Implementations" {
+  class AuthServiceImpl
+  class UserServiceImpl
+  class ProductServiceImpl
+  class JWTServiceImpl
+}
+
+package "Dependencies (Repositories)" {
+  class UserRepository
+  class ProductRepository
+}
+
+' Relations
+IAuthService <|.. AuthServiceImpl
+IUserService <|.. UserServiceImpl
+IProductService <|.. ProductServiceImpl
+IJWTService <|.. JWTServiceImpl
+
+AuthServiceImpl --> UserRepository
+AuthServiceImpl --> IJWTService : uses
+UserServiceImpl --> UserRepository
+ProductServiceImpl --> ProductRepository
+ProductServiceImpl --> UserRepository : checks seller
+@enduml

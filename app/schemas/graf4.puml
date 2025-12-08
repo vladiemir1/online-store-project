@@ -1,0 +1,25 @@
+@startuml ControllerLayer
+skinparam packageStyle rectangle
+skinparam class {
+  BorderColor #E46F25
+  BackgroundColor #FDE2CC
+}
+title Рис. 4. Диаграмма слоя controller (Router Layer)
+
+package "Router Layer (FastAPI Controllers)" {
+  class AuthRouter
+  class UserRouter
+  class ProductRouter
+}
+
+package "Service Layer Dependencies" {
+  interface IAuthService
+  interface IUserService
+  interface IProductService
+}
+
+' Relations
+AuthRouter --> IAuthService : calls service
+UserRouter --> IUserService : calls service
+ProductRouter --> IProductService : calls service
+@enduml

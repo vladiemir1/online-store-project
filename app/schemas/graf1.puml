@@ -1,0 +1,48 @@
+@startuml ModelLayer
+skinparam packageStyle rectangle
+skinparam class {
+  BorderColor #1E90FF
+  BackgroundColor #DDEEFF
+}
+title Рис. 1. Диаграмма слоя model (Entity & DTO)
+
+package "DTO Layer (Pydantic Schemas)" {
+  class LoginRequest
+  class RegisterRequest
+  class AuthResponse {
+    + access_token
+    + token_type
+    + user_role
+  }
+  class ProductCreate
+  class ProductResponse
+}
+
+package "Entity Layer (Database Models)" {
+  class User {
+    + id
+    + login
+    + hashed_password
+    + role_id
+  }
+  class Role {
+    + id
+    + name (CUSTOMER/SELLER)
+  }
+  class Product {
+    + id
+    + name
+    + price
+    + seller_id
+  }
+}
+
+' Relations
+User "1" -- "1" Role : role
+User "1" -- "*" Product : manages
+Product "1" -- "1" User : seller_id
+LoginRequest ..> User
+RegisterRequest ..> User
+AuthResponse ..> User
+ProductResponse ..> Product
+@enduml

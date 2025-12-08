@@ -1,0 +1,32 @@
+@startuml SecurityLayer
+skinparam packageStyle rectangle
+skinparam class {
+  BorderColor #8E44AD
+  BackgroundColor #EAE1F5
+}
+title Рис. 5. Диаграмма слоя security (JWT Auth)
+
+package "Security Configuration" {
+  class JWTSecurityConfig
+}
+
+package "Security Components (Middleware)" {
+  class JWTAuthMiddleware
+}
+
+package "Service Layer" {
+  interface IJWTService
+  interface IUserService
+}
+
+package "Repository Layer" {
+  interface IUserRepository
+}
+
+' Relations
+JWTSecurityConfig --> JWTAuthMiddleware : registers filter
+JWTAuthMiddleware --> IJWTService : validate token
+JWTAuthMiddleware --> IUserService : fetch user details
+IJWTService --> IUserRepository : optional check
+IUserService --> IUserRepository : fetch user data
+@enduml
