@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware 
 from app.api.v1.endpoints import auth_router, public_router, seller_router, customer_router 
 
+
 # пока локально -  разрешаем все источники (*).
 ALLOWED_ORIGINS = [
     "*", ]
@@ -12,7 +13,7 @@ app = FastAPI(
     description="Бэкенд магазина"
 )
 
-# --- ДОБАВЛЕНИЕ CORS MIDDLEWARE ---
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
